@@ -1,11 +1,91 @@
 import React from "react";
 import Header from "./Header";
 import bulb from "./Assets/icons8-light-100.png";
+import axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
+
+import "react-toastify/dist/ReactToastify.css";
+
 const Controlpage = () => {
   var [bulb1State, setBulb1state] = React.useState(false);
   var [bulb2State, setBulb2state] = React.useState(false);
+
+  function status() {
+    try {
+      let a = axios.get("http://192.168.43.232:3030/lightStatus").then((res) => {
+        ////  console.log(res.data);
+        let ans = res.data.filter((i) => {
+          if (i.pin === 4) return i;
+        });
+
+        console.log("ans:", ans[0]);
+        if (ans[0].state) setBulb1state(true);
+        else setBulb1state(false);
+      });
+      toast.promise(a, {
+        pending: "Getting current status",
+        success: "updated👌",
+        error: "Oopss ,...Network Error 🤯",
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  let update = () => {
+    try {
+      axios.get("http://192.168.43.232:3030/lightStatus").then((res) => {
+        ////  console.log(res.data);
+        let ans = res.data.filter((i) => {
+          if (i.pin === 4) return i;
+        });
+
+        //console.log("ans:", ans[0]);
+        if (ans[0].state) setBulb1state(true);
+        else setBulb1state(false);
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  React.useEffect(() => {
+    status();
+  }, []);
+
+  setInterval(() => {
+    update();
+  }, 2000);
+
+  function bulbOn() {
+    console.log("turndd on");
+    try {
+      let a = axios.get("http://192.168.43.232:3030/check", { params: { state: 1 } }).then((res) => {});
+      toast.promise(a, {
+        pending: "Getting current status",
+        success: "Turned On",
+        error: "Oopss ,...Network Error 🤯",
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  function bulbOff() {
+    console.log("turndd off");
+    try {
+      let a = axios.get("http://192.168.43.232:3030/check", { params: { state: 0 } }).then((res) => {});
+      toast.promise(a, {
+        pending: "Getting current status",
+        success: "Turned Off",
+        error: "Oopss ,...Network Error 🤯",
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   return (
     <div>
+      <ToastContainer autoClose={500} />
       <Header></Header>
       {/* <div className="bg-gradient-to-l from-yellow-300 to-yellow-400"> */}
       <div className="flex flex-col m-2 ml-0 justify-start">
@@ -30,15 +110,15 @@ const Controlpage = () => {
                   alt=""
                   className="h-[100px] w-full "
                 />
-                <div class="card-text min-h-[350px]m-2 bg-white">
-                  {/* <h3 className="mt-1 lead py-1">Lights</h3> */}
-                  <div className="flex gap-8 mt-8 flex-wrap">
+                <div className="card-text min-h-[400px]m-2 bg-white">
+                  <h3 className="mt-1 lead py-1">Both farm lights are displayed</h3>
+                  <div className="flex gap-8 mt-8 flex-wrap justify-center flex-grow">
                     {/* Farm 1 control */}
 
-                    <div className="bg-indigo-600 flex-grow-0 border-2 border-black  h-72 w-40">
+                    <div className="bg-indigo-600 flex-grow-1 border-2 border-black  h-72 w-48 ">
                       {/* <p className="bg-gradient-to-r from-gray-400 to-black lead text-white">Farm 1</p> */}
                       <span className=" text-white font-semibold">Farm 1</span>
-                      <div className="flex flex-col h-[240px] justify-evenly flex-wrap-0 p-0 m-0">
+                      <div className="flex flex-col h-[260px] justify-evenly flex-wrap-0 p-0 m-0">
                         <div
                           className={
                             bulb1State
@@ -48,43 +128,27 @@ const Controlpage = () => {
                           <img
                             src={bulb}
                             alt=""
-                            className="h-[60px]"
+                            className="h-[90px] my-auto mx-auto"
                           />
                           <button
                             onClick={() => {
                               setBulb1state((prev) => !prev);
+                              if (!bulb1State) bulbOn();
+                              if (bulb1State) bulbOff();
                             }}
-                            className="bg-white text-sm m-4 rounded-sm px-4 p-0">
-                            {bulb1State ? "on" : "off"}
-                          </button>
-                        </div>
-                        <div
-                          className={
-                            bulb1State
-                              ? "flex  m-0 p-0 border-2 border-black  flex-grow bg-gradient-to-r from-yellow-400 to-yellow-600"
-                              : "flex  m-0 p-0 border-2 border-black flex-grow  bg-gradient-to-r from-gray-700 to-black"
-                          }>
-                          <img
-                            src={bulb}
-                            alt=""
-                            className="h-[60px]"
-                          />
-                          <button
-                            onClick={() => {
-                              setBulb1state((prev) => !prev);
-                            }}
-                            className="bg-white text-sm m-4 rounded-sm px-4 p-0">
-                            {bulb1State ? "on" : "off"}
+                            className="bg-white text-sm m-4 rounded-sm px-2 h-fit">
+                            <p className="text-sm font-extrabold"> {bulb1State ? "Off" : "On"}</p>
                           </button>
                         </div>
                       </div>{" "}
                     </div>
 
                     {/* Farm 2 control */}
-                    <div className="bg-indigo-600 flex-grow-0 border-2 border-black  h-72 w-40">
+
+                    <div className="bg-indigo-600 flex-grow-0 border-2 border-black  h-72 w-44">
                       {/* <p className="bg-gradient-to-r from-gray-400 to-black lead text-white">Farm 1</p> */}
-                      <span className=" text-white font-semibold">Farm 1</span>
-                      <div className="flex flex-col h-[240px] justify-evenly flex-wrap-0 p-0 m-0">
+                      <span className=" text-white font-semibold">Farm 2</span>
+                      <div className="flex flex-col h-[260px] justify-evenly flex-wrap-0 p-0 m-0">
                         <div
                           className={
                             bulb2State
@@ -94,33 +158,14 @@ const Controlpage = () => {
                           <img
                             src={bulb}
                             alt=""
-                            className="h-[60px]"
+                            className="h-[100px] my-auto mx-auto"
                           />
                           <button
                             onClick={() => {
                               setBulb2state((prev) => !prev);
                             }}
-                            className="bg-white text-sm m-4 rounded-sm px-4 p-0">
-                            {bulb2State ? "on" : "off"}
-                          </button>
-                        </div>
-                        <div
-                          className={
-                            bulb2State
-                              ? "flex  m-0 p-0 border-2 border-black  flex-grow bg-gradient-to-r from-yellow-400 to-yellow-600"
-                              : "flex  m-0 p-0 border-2 border-black flex-grow  bg-gradient-to-r from-gray-700 to-black"
-                          }>
-                          <img
-                            src={bulb}
-                            alt=""
-                            className="h-[60px]"
-                          />
-                          <button
-                            onClick={() => {
-                              setBulb2state((prev) => !prev);
-                            }}
-                            className="bg-white text-sm m-4 rounded-sm px-4 p-0">
-                            {bulb2State ? "on" : "off"}
+                            className="bg-white text-sm m-4 rounded-sm px-2 h-fit">
+                            <p className="text-sm font-extrabold"> {bulb2State ? "Off" : "On"}</p>
                           </button>
                         </div>
                       </div>{" "}
