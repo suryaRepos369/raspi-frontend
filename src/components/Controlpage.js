@@ -31,7 +31,7 @@ const Controlpage = () => {
                   className="h-[100px] w-full "
                 />
                 <div class="card-text min-h-[350px]m-2 bg-white">
-                  <h3 className="mt-1 lead py-1">Lights</h3>
+                  {/* <h3 className="mt-1 lead py-1">Lights</h3> */}
                   <div className="flex gap-8 mt-8 flex-wrap">
                     {/* Farm 1 control */}
 
@@ -42,7 +42,7 @@ const Controlpage = () => {
                         <div
                           className={
                             bulb1State
-                              ? "flex  m-0 p-0 border-2 border-black  flex-grow bg-gradient-to-r from-yellow-400 to-yellow-600"
+                              ? "flex  m-0 p-0 border-2 border-black  flex-grow bg-gradient-to-r from-yellow-400 to-yellow-900"
                               : "flex  m-0 p-0 border-2 border-black flex-grow  bg-gradient-to-r from-gray-700 to-black"
                           }>
                           <img
