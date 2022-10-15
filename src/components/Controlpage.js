@@ -99,9 +99,9 @@ const Controlpage = () => {
       <div className=" container-fluid">
         <div className="row d-flex">
           <div className="shadow-md  d-flex flex-grow col-lg-5 col-12 ">
-            <div className="card  flex-grow bg-gray-300">
-              <div className="card-body border-2  border-black p-0">
-                <h5 className="card-title bg-gray-900 flex-grow m-0 p-0 rounded-sm border-1 py-4 lead border-black text-white ">
+            <div className="card h-fit flex-grow bg-white border-2 border-blue-700 m-2 p-1">
+              <div className="card-body p-0  h-fit">
+                <p className="card-title font-monospace text-xl  my-4 p-2 bg-gray-900 text-yellow-400 font-semibold rounded-xl">
                   Poultry farm Light control board
                 </h5>
 
@@ -114,8 +114,7 @@ const Controlpage = () => {
                   <h3 className="mt-1 lead py-1">Both farm lights are displayed</h3>
                   <div className="flex gap-8 mt-8 flex-wrap justify-center flex-grow">
                     {/* Farm 1 control */}
-
-                    <div className="bg-indigo-600 flex-grow-1 border-2 border-black  h-72 w-48 ">
+                    <div className="bg-black flex-grow-1 my-4 rounded-3xl  h-72 w-44 ">
                       {/* <p className="bg-gradient-to-r from-gray-400 to-black lead text-white">Farm 1</p> */}
                       <span className=" text-white font-semibold">Farm 1</span>
                       <div className="flex flex-col h-[260px] justify-evenly flex-wrap-0 p-0 m-0">
@@ -175,11 +174,6 @@ const Controlpage = () => {
               </div>
             </div>
           </div>
-          <div className="shadow-md col-lg-4 col-12">
-            <div className="card h-[300px]">
-              <div className="card-body border-1 border-black p-0">
-                <h5 className="card-title bg-pink-500 flex-grow m-0 p-0 rounded-sm border-1 py-2 border-black ">socket</h5>
-                {/* <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p> */}
               </div>
             </div>
           </div>
