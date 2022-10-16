@@ -17,7 +17,7 @@ const Controlpage = () => {
 
   async function status() {
     try {
-      let a = await axios.get("http://192.168.43.232:3030/lightStatus").then((res) => {
+      let a = axios.get("http://192.168.43.232:3030/lightStatus").then((res) => {
         ////  console.log(res.data);
         let ans = res.data.filter((i) => {
           if (i.pin === 4) return i;
@@ -37,64 +37,69 @@ const Controlpage = () => {
       console.log(error);
     }
   }
-  let update = () => {
+  async function update() {
+    console.log("checking curretn status");
     try {
-      axios.get("http://192.168.43.232:3030/lightStatus").then((res) => {
-        ////  console.log(res.data);
-        let ans = res.data.filter((i) => {
-          if (i.pin === 4) return i;
-        });
+      let res = await axios.get("http://192.168.43.232:3030/lightStatus");
+      let ans = res.data.filter((i) => {
+        if (i.pin === 4) return i;
+      });
 
-        //console.log("ans:", ans[0]);
-        if (ans[0].state) setBulb1state(true);
-        else setBulb1state(false);
+      if (ans[0].state) setBulb1state(true);
+      else setBulb1state(false);
+    } catch (error) {
+      setError(true);
+      console.log(error.message);
+    }
+  }
+
+  React.useEffect(() => {
+    status();
+  }, []);
+
+  setInterval(() => {
+    if (error) return;
+    /// update();
+  }, 4000);
+
+  function bulbOn(pin) {
+    console.log("turndd on");
+    try {
+      let a = axios
+        .get("http://192.168.43.232:3030/check", { params: { state: 1, pin } })
+        .then((res) => {})
+        .catch((err) => {
+          setError(true);
+          console.log(error.message);
+        });
+      toast.promise(a, {
+        pending: "Getting current status",
+        success: "Turned On",
+        error: "Oopss ,...Network Error 🤯",
       });
     } catch (error) {
       console.log(error);
     }
-  };
-
-  React.useEffect(() => {
-    //status();
-  }, []);
-  if (!error) {
-    setInterval(() => {
-      //  update();
-    }, 2000);
   }
-
-  function bulbOn() {
-    console.log("turndd on");
-    // try {
-    //   let a = axios.get("http://192.168.43.232:3030/check", { params: { state: 1 } }).then((res) => {});
-    //   toast.promise(a, {
-    //     pending: "Getting current status",
-    //     success: "Turned On",
-    //     error: "Oopss ,...Network Error 🤯",
-    //   });
-    // } catch (error) {
-    //   console.log(error);
-    // }
-  }
-  function bulbOff() {
+  function bulbOff(pin) {
     console.log("turndd off");
-    // try {
-    //   let a = axios.get("http://192.168.43.232:3030/check", { params: { state: 0 } }).then((res) => {});
-    //   toast.promise(a, {
-    //     pending: "Getting current status",
-    //     success: "Turned Off",
-    //     error: "Oopss ,...Network Error 🤯",
-    //   });
-    // } catch (error) {
-    //   setError(true);
-    //   console.log("error occured");
-    // }
-  }
-
-  const farmRef = React.useRef(null);
-  function focusDiv() {
-    farmRef.current.focus();
-    console.log("first");
+    try {
+      let a = axios
+        .get("http://192.168.43.232:3030/check", { params: { state: 0, pin } })
+        .then((res) => {})
+        .catch((error) => {
+          setError(true);
+          console.log(error.message);
+        });
+      toast.promise(a, {
+        pending: "Getting current status",
+        success: "Turned Off",
+        error: "Oopss ,...Network Error 🤯",
+      });
+    } catch (error) {
+      setError(true);
+      console.log("error occured");
+    }
   }
 
   return (
@@ -106,8 +111,8 @@ const Controlpage = () => {
 
       {/* Errror Div */}
       {error ? (
-        <div className="border-4 border-red-500">
-          {alert("Network error")}
+        <div className="border-4 border-red-500 bg-red-300 my-4">
+          {}
           Error...! All the buttons are disabled until network connection is back
         </div>
       ) : null}
@@ -147,8 +152,8 @@ const Controlpage = () => {
                             className="h-[90px] my-auto mx-auto"
                             onClick={() => {
                               setBulb1state((prev) => !prev);
-                              if (!bulb1State) bulbOn();
-                              if (bulb1State) bulbOff();
+                              if (!bulb1State) bulbOn(1);
+                              if (bulb1State) bulbOff(1);
                             }}
                           />
                           <div className="m-0 p-0 h-fit bg-white rounded-xl ">
@@ -161,8 +166,8 @@ const Controlpage = () => {
                               }
                               onClick={() => {
                                 setBulb1state((prev) => !prev);
-                                if (!bulb1State) bulbOn();
-                                if (bulb1State) bulbOff();
+                                if (!bulb1State) bulbOn(1);
+                                if (bulb1State) bulbOff(1);
                               }}>
                               <p className="text-sm font-extrabold"> {bulb1State ? "Off" : "On"}</p>
                             </button>
@@ -181,8 +186,8 @@ const Controlpage = () => {
                             className="h-[90px] my-auto mx-auto"
                             onClick={() => {
                               setBulb2state((prev) => !prev);
-                              if (!bulb2State) bulbOn();
-                              if (bulb2State) bulbOff();
+                              if (!bulb2State) bulbOn(2);
+                              if (bulb2State) bulbOff(2);
                             }}
                           />
                           <div className="m-0 p-0 h-fit bg-white rounded-xl ">
@@ -195,8 +200,8 @@ const Controlpage = () => {
                               }
                               onClick={() => {
                                 setBulb2state((prev) => !prev);
-                                if (!bulb2State) bulbOn();
-                                if (bulb2State) bulbOff();
+                                if (!bulb2State) bulbOn(2);
+                                if (bulb2State) bulbOff(2);
                               }}>
                               <p className="text-sm font-extrabold"> {bulb2State ? "Off" : "On"}</p>
                             </button>
@@ -215,8 +220,8 @@ const Controlpage = () => {
                             className="h-[90px] my-auto mx-auto"
                             onClick={() => {
                               setBulb3state((prev) => !prev);
-                              if (!bulb3State) bulbOn();
-                              if (bulb3State) bulbOff();
+                              if (!bulb3State) bulbOn(3);
+                              if (bulb3State) bulbOff(3);
                             }}
                           />
                           <div className="m-0 p-0 h-fit bg-white rounded-xl ">
@@ -229,8 +234,8 @@ const Controlpage = () => {
                               }
                               onClick={() => {
                                 setBulb3state((prev) => !prev);
-                                if (!bulb3State) bulbOn();
-                                if (bulb3State) bulbOff();
+                                if (!bulb3State) bulbOn(3);
+                                if (bulb3State) bulbOff(3);
                               }}>
                               <p className="text-sm font-extrabold"> {bulb3State ? "Off" : "On"}</p>
                             </button>
@@ -259,8 +264,8 @@ const Controlpage = () => {
                             className="h-[90px] my-auto mx-auto"
                             onClick={() => {
                               setBulb4state((prev) => !prev);
-                              if (!bulb4State) bulbOn();
-                              if (bulb4State) bulbOff();
+                              if (!bulb4State) bulbOn(4);
+                              if (bulb4State) bulbOff(4);
                             }}
                           />
                           <div className="m-0 p-0 h-fit bg-white rounded-xl ">
@@ -273,8 +278,8 @@ const Controlpage = () => {
                               }
                               onClick={() => {
                                 setBulb4state((prev) => !prev);
-                                if (!bulb4State) bulbOn();
-                                if (bulb4State) bulbOff();
+                                if (!bulb4State) bulbOn(4);
+                                if (bulb4State) bulbOff(4);
                               }}>
                               <p className="text-sm font-extrabold"> {bulb4State ? "Off" : "On"}</p>
                             </button>
