@@ -3,8 +3,6 @@ import Header from "./Header";
 import bulb from "./Assets/icons8-light-100.png";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
-import ReactDOM from "react-dom";
-
 import "react-toastify/dist/ReactToastify.css";
 
 const Controlpage = () => {
