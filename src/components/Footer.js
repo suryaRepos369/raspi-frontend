@@ -6,7 +6,7 @@ import ListTwoToneIcon from "@mui/icons-material/ListTwoTone";
 const Footer = () => {
   return (
     <>
-      <div className="bg-inherit  text-white flex lg:relative  lg:justify-center  flex-grow bg-gray-900 px-4 py-2 m-2 rounded-xl fixed bottom-0  gap-24 ml-8">
+      <div className="bg-inherit  text-white flex lg:relative  lg:justify-center  flex-grow bg-gray-900 px-6 py-2 m-2 rounded-xl fixed bottom-0  gap-28 ml-8">
         <div>
           {" "}
           <ListTwoToneIcon />

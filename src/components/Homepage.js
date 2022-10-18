@@ -5,11 +5,11 @@ import { useNavigate } from "react-router-dom";
 import HeaderNew from "./headerNew";
 
 const Home = () => {
-  let navigate = useNavigate();
-  function viewHandler() {
-    navigate("/control");
-  }
-  return <div></div>;
+  return (
+    <div>
+      <h1 className=" p-8 font-bold">Welcome to the Smart Home control app</h1>
+    </div>
+  );
 };
 
 export default Home;
