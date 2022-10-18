@@ -1,5 +1,4 @@
 import React from "react";
-import CategoryIcon from "@mui/icons-material/Category";
 import WidgetsTwoToneIcon from "@mui/icons-material/WidgetsTwoTone";
 import StarBorderPurple500TwoToneIcon from "@mui/icons-material/StarBorderPurple500TwoTone";
 import ListTwoToneIcon from "@mui/icons-material/ListTwoTone";
