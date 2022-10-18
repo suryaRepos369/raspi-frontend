@@ -4,6 +4,10 @@ import bulb from "./Assets/icons8-light-100.png";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import io from "socket.io-client";
+import HeaderNew from "./headerNew";
+const socket = io.connect("http://192.168.43.16:3030");
+console.log(socket);
 
 const Controlpage = () => {
   var [bulb1State, setBulb1state] = React.useState(false);
@@ -13,97 +17,79 @@ const Controlpage = () => {
   // var [bulb5State, setBulb5state] = React.useState(false);
   var [error, setError] = React.useState(false);
 
-  async function status() {
-    try {
-      let a = axios.get("http://192.168.43.232:3030/lightStatus").then((res) => {
-        ////  console.log(res.data);
-        let ans = res.data.filter((i) => {
-          if (i.pin === 4) return i;
-        });
+  //!bulb controller
+  const bulbController = (data) => {
+    console.log("data for bulb controller:", data);
 
-        console.log("ans:", ans[0]);
-        if (ans[0].state) setBulb1state(true);
-        else setBulb1state(false);
-      });
-      toast.promise(a, {
-        pending: "Getting current status",
-        success: "updated👌",
-        error: "Oopss ,...Network Error 🤯",
-      });
-    } catch (error) {
-      setError(true);
-      console.log(error);
+    console.log("setting bulb state");
+    if (data.pin === 4) {
+      if (data.status === 1) {
+        setBulb1state(true);
+      } else {
+        setBulb1state(false);
+      }
     }
-  }
-  async function update() {
-    console.log("checking curretn status");
-    try {
-      let res = await axios.get("http://192.168.43.232:3030/lightStatus");
-      let ans = res.data.filter((i) => {
-        if (i.pin === 4) return i;
-      });
-
-      if (ans[0].state) setBulb1state(true);
-      else setBulb1state(false);
-    } catch (error) {
-      setError(true);
-      console.log(error.message);
-    }
-  }
+  };
 
   React.useEffect(() => {
-    status();
-  }, []);
+    socket.on("status", (data) => {
+      console.log("initial data", data);
+      bulbController(data);
+    });
+    socket.on("receivePinData", (data) => {
+      console.log("Received data ", data);
+      if (data.pin === 4 && data.status === 1) setBulb1state(true);
+    });
+  }, [socket]);
 
-  setInterval(() => {
-    if (error) return;
-    /// update();
-  }, 4000);
+  async function joinRoom() {
+    socket.emit("join_room", 4);
+  }
 
-  function bulbOn(pin) {
-    console.log("turndd on");
+  async function bulbOn(pin) {
     try {
-      let a = axios
-        .get("http://192.168.43.232:3030/check", { params: { state: 1, pin } })
-        .then((res) => {})
-        .catch((err) => {
-          setError(true);
-          console.log(error.message);
-        });
-      toast.promise(a, {
-        pending: "Getting current status",
-        success: "Turned On",
-        error: "Oopss ,...Network Error 🤯",
-      });
-    } catch (error) {
-      console.log(error);
+      const pinData = {
+        pin: 4,
+        status: 1,
+        time: new Date(Date.now()).toLocaleString("en-GB", { timeZone: "Asia/Kolkata" }),
+      };
+      // joinRoom();
+      if (socket.connected) {
+        await socket.emit("sendPinData", pinData);
+        console.log("sent ", pinData);
+        if (pin === 1) setBulb1state(true);
+      } else {
+        setError(true);
+      }
+    } catch (e) {
+      console.log(e);
     }
   }
-  function bulbOff(pin) {
-    console.log("turndd off");
+  async function bulbOff(pin) {
     try {
-      let a = axios
-        .get("http://192.168.43.232:3030/check", { params: { state: 0, pin } })
-        .then((res) => {})
-        .catch((error) => {
-          setError(true);
-          console.log(error.message);
-        });
-      toast.promise(a, {
-        pending: "Getting current status",
-        success: "Turned Off",
-        error: "Oopss ,...Network Error 🤯",
-      });
-    } catch (error) {
-      setError(true);
-      console.log("error occured");
+      const pinData = {
+        pin: 4,
+        status: 0,
+        time: new Date(Date.now()).toLocaleString("en-GB", { timeZone: "Asia/Kolkata" }),
+      };
+      // joinRoom();
+      if (socket.connected) {
+        await socket.emit("sendPinData", pinData);
+        console.log("sent ", pinData);
+        if (pin === 1) setBulb1state(false);
+      } else {
+        setError(true);
+      }
+    } catch (e) {
+      console.log(e);
     }
   }
 
   return (
     <div>
       <ToastContainer autoClose={500} />
-      <Header className="sticky top-0"></Header>
+      {/* <Header className="sticky top-0"></Header> */}
+      <HeaderNew></HeaderNew>
 
       {/* <div className="bg-gradient-to-l from-yellow-300 to-yellow-400"> */}
 
@@ -118,7 +104,7 @@ const Controlpage = () => {
       <div className=" container-fluid">
         <div className="row d-flex">
           <div className="shadow-md  d-flex flex-grow col-lg-5 col-12 ">
-            <div className="card h-fit flex-grow bg-white border-2 border-blue-700 m-2 p-1">
+            <div className="card h-fit flex-grow bg-inherit border-blue-700 m-2 p-1">
               <div className="card-body p-0  h-fit">
                 <p className="card-title font-monospace text-xl  my-4 p-2 bg-gray-900 text-yellow-400 font-semibold rounded-xl">
                   Poultry farm Light control board
@@ -130,7 +116,7 @@ const Controlpage = () => {
                   className="h-[100px] w-5/6 m-auto rounded-xl "
                 />
 
-                <div className="card-text min-h-[500px]m-2 rounded-lg my-1 bg-white">
+                <div className="card-text min-h-[500px]m-2 rounded-lg my-1 bg-inherit">
                   <div className="flex gap-8 mt-8 flex-wrap justify-center flex-grow">
                     {/* Farm 1 control */}
                     <div className="bg-black flex-grow-1 rounded-3xl  h-fit w-44 ">
@@ -149,7 +135,7 @@ const Controlpage = () => {
                             alt=""
                             className="h-[90px] my-auto mx-auto"
                             onClick={() => {
-                              setBulb1state((prev) => !prev);
+                              // setBulb1state((prev) => !prev);
                               if (!bulb1State) bulbOn(1);
                               if (bulb1State) bulbOff(1);
                             }}
@@ -163,7 +149,7 @@ const Controlpage = () => {
                                   : "bg-green-500 text-sm m-1 rounded-xl px-2 min-h-[30px] min-w-[40px]"
                               }
                               onClick={() => {
-                                setBulb1state((prev) => !prev);
+                                // setBulb1state((prev) => !prev);
                                 if (!bulb1State) bulbOn(1);
                                 if (bulb1State) bulbOff(1);
                               }}>
