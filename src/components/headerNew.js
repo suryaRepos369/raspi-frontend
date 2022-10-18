@@ -1,4 +1,3 @@
-import icon from "./Assets/smart-house.png";
 import { NavLink, useNavigate, useLocation } from "react-router-dom";
 import "./NewHeader.css";
 import React, { useState, useEffect, useRef } from "react";

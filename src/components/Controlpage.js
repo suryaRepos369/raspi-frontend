@@ -2,13 +2,11 @@ import React from "react";
 import bulb from "./Assets/icons8-light-100.png";
 import "react-toastify/dist/ReactToastify.css";
 import io from "socket.io-client";
-import HeaderNew from "./headerNew";
-import { ToastContainer, toast } from "react-toastify";
 import { SyncLoader } from "react-spinners";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Unstable_Grid2";
 
-const socket = io.connect("http://192.168.43.16:3030");
+const socket = io.connect("http://192.168.43.232:3030");
 
 console.log(socket);
 
@@ -22,12 +20,12 @@ const Controlpage = () => {
   // var [bulb5State, setBulb5state] = React.useState(false);
   var [net, setNet] = React.useState(false);
 
-  const noNet = () => toast.error("No internet connection", { autoClose: 1500 });
-  const Net = () => toast.success("internet connection  is back", { autoClose: 100 });
+  // const noNet = () => toast.error("No internet connection", { autoClose: 1500 });
+  // const Net = () => toast.success("internet connection  is back", { autoClose: 100 });
 
   socket.on("connect", () => {
     console.log(socket.id); // x8WIv7-mJelg7on_ALbx
-    Net();
+    // Net();
     setNet(true);
 
     setError(false);
@@ -36,7 +34,7 @@ const Controlpage = () => {
   socket.on("disconnect", () => {
     console.log(socket.id);
     setNet(false);
-    noNet();
+    // noNet();/
     setError(true); // undefined
   });
 
