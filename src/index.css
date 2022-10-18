@@ -8,6 +8,10 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+  /* background-image: linear-gradient(to top right, rgb(175, 170, 164), rgb(237, 131, 56)); */
+
+  background-image: radial-gradient(circle farthest-corner at 92.3% 71.5%, rgba(53, 225, 102, 0.521) 0%, rgb(67, 69, 71) 90%);
 }
 
 code {

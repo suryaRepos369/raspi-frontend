@@ -1,7 +1,9 @@
 import "./App.css";
 import Home from "./components/Homepage";
-import { Routes, Route, Navigate } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import Controlpage from "./components/Controlpage";
+import Socket from "./components/Socket";
+
 function App() {
   return (
     <div className="App">
@@ -12,6 +14,9 @@ function App() {
         <Route
           path="/control"
           element={<Controlpage />}></Route>
+        <Route
+          path="/socket"
+          element={<Socket />}></Route>
       </Routes>
     </div>
   );

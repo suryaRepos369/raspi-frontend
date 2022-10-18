@@ -64,7 +64,7 @@ const ResponsiveAppBar = () => {
     <AppBar position="static">
       <Container
         maxWidth="xl"
-        className="bg-[#131A22]">
+        className="bg-">
         <Toolbar disableGutters>
           {/* <AdbIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} /> */}
           <p className="hidden md:flex">

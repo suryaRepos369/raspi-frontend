@@ -2,6 +2,8 @@ import React from "react";
 import bgi from "../components/Assets/sHbg.jpg";
 import Header from "./Header";
 import { useNavigate } from "react-router-dom";
+import HeaderNew from "./headerNew";
+
 const Home = () => {
   let navigate = useNavigate();
   function viewHandler() {
@@ -9,21 +11,12 @@ const Home = () => {
   }
   return (
     <div>
-      <Header></Header>
+      {/* <Header></Header> */}
+      <HeaderNew></HeaderNew>
       {/* main body */}
 
-      <div className="row flex-row gap-2 justify-items-center relative">
-        <div className="col-8">
-          <div
-            className="flex"
-            style={{ backgroundImage: { bgi } }}>
-            <img
-              src={bgi}
-              alt=""
-              className="max-h-[300px] min-w-full"
-            />
-          </div>
-        </div>
+      {/* <div className="row flex-row gap-2 justify-items-center relative">
+        <div className="col-8"></div>
         <div className="col-12 ">
           <span>
             <button
@@ -33,7 +26,7 @@ const Home = () => {
             </button>
           </span>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 };
