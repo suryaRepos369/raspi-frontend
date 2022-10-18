@@ -9,26 +9,7 @@ const Home = () => {
   function viewHandler() {
     navigate("/control");
   }
-  return (
-    <div>
-      {/* <Header></Header> */}
-      <HeaderNew></HeaderNew>
-      {/* main body */}
-
-      {/* <div className="row flex-row gap-2 justify-items-center relative">
-        <div className="col-8"></div>
-        <div className="col-12 ">
-          <span>
-            <button
-              onClick={viewHandler}
-              className="rounded-xl bg-pink-500 px-8 p-2 m-auto mt-4 ">
-              View
-            </button>
-          </span>
-        </div>
-      </div> */}
-    </div>
-  );
+  return <div></div>;
 };
 
 export default Home;

@@ -43,7 +43,7 @@ const HeaderNew = () => {
         return "Home";
 
       case "/control":
-        return "Poultry farm";
+        return "Farm";
 
       case "/fans":
         return "Fans";
@@ -74,7 +74,7 @@ const HeaderNew = () => {
                   <li className="border bg-gray-800 p-1 border-black flex-grow">
                     <NavLink
                       to="/"
-                      className={({ isActive }) => (isActive ? "text-blue-500   py-2   rounded-xl" : " text-gray-400 flex-grow py-1 ")}
+                      className={({ isActive }) => (isActive ? "text-blue-500 font-semibold   py-2   rounded-xl" : " text-white flex-grow py-1 ")}
                       end>
                       Home
                     </NavLink>
@@ -82,14 +82,14 @@ const HeaderNew = () => {
                   <li className="border bg-gray-800 p-1 border-black flex-grow">
                     <NavLink
                       to="/control"
-                      className={({ isActive }) => (isActive ? "text-blue-500   py-2   rounded-xl" : " text-gray-400 flex-grow py-1 ")}>
+                      className={({ isActive }) => (isActive ? "text-blue-500 font-semibold   py-2   rounded-xl" : " text-white flex-grow py-1 ")}>
                       Poultry farm
                     </NavLink>
                   </li>
                   <li className="border bg-gray-800 p-1 border-black flex-grow">
                     <NavLink
                       to="/Poultryfarm"
-                      className={({ isActive }) => (isActive ? "text-blue-500   py-2   rounded-xl" : " text-gray-400 flex-grow py-1 ")}>
+                      className={({ isActive }) => (isActive ? " text-blue-500 font-semibold  py-2   rounded-xl" : " text-white flex-grow py-1 ")}>
                       Living Room
                     </NavLink>
                   </li>
