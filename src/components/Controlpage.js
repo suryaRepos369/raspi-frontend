@@ -127,7 +127,45 @@ const Controlpage = () => {
         </div>
       ) : null}
 
-      <div className="container">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      <div className={net ? "bg-inherit" : "bg-red-400 opacity-40"}>
         <div className="row justify-content-md-center">
           <div className=" col-lg-6 col-xs-12 ">
             <div
@@ -152,15 +190,28 @@ const Controlpage = () => {
                       />
                     </div>
                   </Grid>
-                  <p className="text-white lead flex-grow rounded-lg m-2 p-1 bg-gray-800 font-semibold">Farm light Control</p>
-                </Grid>
-              </Box>
-            </div>
-          </div>
-          {light && (
-            <div className="row flex  shadow-md w-full gap-4  bg-gradient-to-tr from-white to-blue-400 rounded-xl m-auto p-4 ">
-              {/* Farm 1 control */}
-              <div className="col-lg-5 bg-gradient-to-tl from-blue-500 p-8 px-4 to-gray-700  flex-grow-1 rounded-3xl  h-fit  ">
+                )}
+                {light && (
+                  <div className="row flex  shadow-md w-full gap-3  justify-center bg-gradient-to-tr from-[#e8d7c6] to-[#f8faf1] rounded-xl mt-2 m-1 p-0 ">
+                    <div
+                      className="  flex  h-fit sticky top-2 hover:cursor-pointer hover:bg-red-300 rounded-xl"
+                      onClick={() => {
+                        setLight(false);
+                      }}>
+                      <IconButton
+                        aria-label="delete"
+                        size="large">
+                        <CancelIcon
+                          sx={{ color: "red" }}
+                          fontSize="large"
+                        />
+                      </IconButton>
+                      <p className="lead mt-3 text-black">Close</p>
+                    </div>
+                    <div className="text-sm m-0 p-0 text-yellow-900">***Dark color inside box indicates light is off </div>
+
+                    {/* Farm 1 control */}
+              <div className="col-lg-5 col-2 shadow-lg bg-gradient-to-tl from-blue-100 p-8 px-4 to-[#799F0C] flex-grow-1 rounded-3xl  h-fit  ">
                 {/* <p className="bg-gradient-to-r from-gray-400 to-black lead text-white">Farm 1</p> */}
                 <span className=" text-white font-semibold border-[1px] px-8 border-white rounded-lg bg-orange-500  ">Farm 1</span>
                 <div
@@ -184,9 +235,9 @@ const Controlpage = () => {
                       }}
                     />
                     <div className="m-0 p-0 h-fit bg-white rounded-xl ">
-                      <button
-                        disabled={error}
-                        className={
+                            <button
+                              disabled={error}
+                              className={
                           bulb1State
                             ? "bg-red-500 text-sm m-1 rounded-xl px-2 min-h-[30px] min-w-[40px]"
                             : "bg-green-500 text-sm m-1 rounded-xl px-2 min-h-[30px] min-w-[40px]"
@@ -272,8 +323,8 @@ const Controlpage = () => {
               </div>
 
               {/* Farm 2 control */}
-              <div className="col-lg-5 bg-gradient-to-tl from-blue-500 p-8 px-4 to-gray-900 flex-grow-1  rounded-3xl    h-fit">
-                {/* <p className="bg-gradient-to-r from-gray-400 to-black lead text-white">Farm 1</p> */}
+                    <div className="col-lg-4 ml-4m-lg-auto hover:scale-105 ease-in-out duration-200   col-5 shadow-lg bg-gradient-to-tl from-blue-100 p-4 px-2 to-[#fbedf8] flex-grow-0 rounded-3xl  h-fit  ">
+                      {/* <p className="bg-gradient-to-r from-gray-400 to-black lead text-white">Farm 1</p> */}
                 <span className=" text-white font-semibold border-[1px] px-8 border-white rounded-lg bg-orange-600  ">Farm 2</span>
 
                 <div className="my-2">
@@ -383,11 +434,8 @@ const Controlpage = () => {
               </div>
             </div>
           )}
-
-          <div className="col-lg-6 col-xs-12">
-            <div className="  hover:cursor-pointer m-6  min-h-[300px]  border-[1px] border-gray-900 lg:my-8 lg:m-auto flex container-fluid bg-gradient-to-tr from-blue-200 to-gray-400  rounded-xl my-4">
-              <Box sx={{ flexGrow: 1 }}>
-                <Grid
+                {!light && (
+                  <Grid
                   container
                   spacing={2}>
                   <Grid
