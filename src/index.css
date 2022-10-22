@@ -11,7 +11,8 @@ body {
 
   /* background-image: linear-gradient(to top right, rgb(175, 170, 164), rgb(237, 131, 56)); */
 
-  background-image: radial-gradient(circle farthest-corner at 92.3% 71.5%, rgba(53, 225, 102, 0.521) 0%, rgb(67, 69, 71) 90%);
+  background-color: rgb(14, 64, 64);
+  /* background-image: radial-gradient(circle farthest-corner at 80.3% 79.5%, rgba(59, 240, 110, 0.521) 0%, rgb(60, 62, 48) 90%); */
 }
 
 code {

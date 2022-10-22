@@ -22,6 +22,9 @@ function App() {
           <Route
             path="/socket"
             element={<Socket />}></Route>
+          <Route
+            path="*"
+            element={<Home />}></Route>
         </Routes>
       </Layout>
     </div>
